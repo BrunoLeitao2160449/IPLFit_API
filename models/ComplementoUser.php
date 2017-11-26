@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "complemento_user".
@@ -83,5 +85,25 @@ class ComplementoUser extends \yii\db\ActiveRecord
     public function getDiaUtilizadors()
     {
         return $this->hasMany(DiaUtilizador::className(), ['id_user' => 'id_user']);
+    }
+
+    public function fields()
+    {
+        return [
+            // field name is the same as the attribute name
+            'id_user' => 'id_user',
+            'Nome' => 'nome',
+            'Username' => function ($model) {
+                return User::findOne($model->id_user)->username;
+            },
+            'Email' => function ($model) {
+                return User::findOne($model->id_user)->email;
+            },
+            'Data_de_Nascimento' => 'data_nasc',
+            'Peso_Atual' => 'peso',
+            'Altura' => 'altura',
+            'Meta_de_Peso' => 'meta_peso',
+            'Observações' => 'obs',
+        ];
     }
 }
